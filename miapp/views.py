@@ -60,26 +60,33 @@ def turno(request):
                     break
             if found:
                 break
-            
-        update_cell(tablero_db,cell_name,str)
+        
+        fin = False
+        updated = update_cell(tablero_db,cell_name,str,fin)
 
-        if check_tic_tac_toe(string_to_matrix(tablero_db.__str__())):
+        str_tablero = string_to_matrix(tablero_db.__str__())
+        fin = check_tic_tac_toe(str_tablero)
+        bloqueo = configuracion_bloqueo(str_tablero)
+        if fin:
             if str == 'O':
                 marcador.jugadorO += 1
             else:
                 marcador.jugadorX += 1
             marcador.save()
-            reset(request)
+            new_game(request,fin)
+        elif bloqueo:
+            new_game(request,True)
 
-        turno_db.turno = not turno_db.turno
-        turno_db.save()
-        
+        if updated and not fin and not bloqueo:
+            turno_db.turno = not turno_db.turno
+            turno_db.save()
 
     return redirect('/tictactoe')
 
 
     
-def update_cell(tablero_db, cell_name, turno):
+def update_cell(tablero_db, cell_name, turno,fin):
+    updated = False
     switch_cases = {
         'cell_1_1': ('a1', turno),
         'cell_1_2': ('a2', turno),
@@ -94,17 +101,22 @@ def update_cell(tablero_db, cell_name, turno):
 
     if cell_name in switch_cases:
         attribute, value = switch_cases[cell_name]
-        setattr(tablero_db, attribute, value)
-        tablero_db.save()
+        cell_value = getattr(tablero_db, attribute)
+        if cell_value == ' ' or fin:  # Verificar si la celda está vacía
+            setattr(tablero_db, attribute, value)
+            tablero_db.save()
+            updated = True
+    return updated
 
 
 def reset(request):
-    tablero_db = Tablero.objects.first()
-    for row in range(3):
-        for col in range(3):
-            cell_name = f'cell_{row + 1}_{col + 1}'
-            update_cell(tablero_db,cell_name,' ')
+    fin = True
+    reiniciar_tablero(fin)
+    reiniciar_marcador()
+    return redirect('/tictactoe')
 
+def new_game(request,fin):
+    reiniciar_tablero(fin)
     return redirect('/tictactoe')
 
 def check_tic_tac_toe(board):
@@ -125,3 +137,24 @@ def check_tic_tac_toe(board):
         return True
 
     return False
+
+def configuracion_bloqueo(tablero):
+    for fila in tablero:
+        for elemento in fila:
+            if elemento == ' ':
+                return False  # Se encontró una cadena vacía, por lo que retornamos False
+    return True  # No se encontró ninguna cadena vacía, retornamos True
+
+
+def reiniciar_marcador():
+    marcador = Marcador.objects.first()
+    marcador.jugadorO = 0
+    marcador.jugadorX = 0
+    marcador.save()
+
+def reiniciar_tablero(fin):
+    tablero_db = Tablero.objects.first()
+    for row in range(3):
+        for col in range(3):
+            cell_name = f'cell_{row + 1}_{col + 1}'
+            update_cell(tablero_db, cell_name,' ',fin)
