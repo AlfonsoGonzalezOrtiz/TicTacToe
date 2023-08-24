@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe Board</title>
+</head>
+<style>
+    h1 {
+        color: orangered;
+        margin-bottom: -5px;
+    }
+
+    p {
+        margin-bottom: -10px;
+    }
+
+    .ui {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .row {
+        display: flex;
+    }
+
+    .cell {
+        border: none;
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        text-align: center;
+        cursor: pointer;
+        border: 1px solid gray;
+    }
+
+    .cell:active {
+        outline: none;
+    }
+
+    /* Reset Button */
+    #but {
+        box-sizing: border-box;
+        width: 95px;
+        height: 40px;
+        border: 1px solid dodgerblue;
+        margin: 0;
+        border-radius: 8px;
+        font-family: Verdana,
+            Geneva, Tahoma, sans-serif;
+
+        background-color: whitesmoke;
+        color: dodgerblue;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    /* Player turn space */
+    #print {
+        font-family: Verdana,
+            Geneva, Tahoma, sans-serif;
+        color: dodgerblue;
+        font-size: 20px;
+    }
+
+    /* Main Container */
+    #main {
+        text-align: center;
+    }
+
+    /* Game Instruction Text */
+    #ins {
+        font-family: Verdana, Geneva,
+            Tahoma, sans-serif;
+        color: dodgerblue;
+    }
+</style>
+
+<body>
+    <div id="main">
+        <h1>TIC TAC TOE</h1>
+        <p id="ins">
+            Game starts by just Tap on
+            box<br><br>First Player starts as
+            <b>Player X </b>And Second Player as
+            <b>Player O</b>
+        </p>
+        <br><br>
+        <form action="/turno/" method="POST"> {% csrf_token %}
+            <div class="ui">
+                {% for row in tablero %}
+                <div class="row">
+                    {% for cell in row %}
+                    <input type="submit" id="cell_{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
+                        name="cell_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" class="cell" value="{{cell}}"
+                        maxlength="1">
+                    {% endfor %}
+                </div>
+                {% endfor %}
+                <br><br><br>
+        </form>
+        <form action="/reset/" method="POST"> {% csrf_token %}
+            <button id="but">
+                RESET
+            </button>
+        </form>
+        <br><br>
+        <p id="print">Turno de: {{turno}} </p>
+        <p id="print">Marcador: {{jugadorX}} - {{jugadorO}} </p>
+
+
+    </div>
+</body>
+
+</html>
