@@ -50,7 +50,7 @@ def turno(request):
             str = 'X'
 
         marcador = Marcador.objects.filter(id=1).first()
-        marcador.jugadorO = 2
+
         found = 0
         for row in range(3):
             for col in range(3):
@@ -62,6 +62,14 @@ def turno(request):
                 break
             
         update_cell(tablero_db,cell_name,str)
+
+        if check_tic_tac_toe(string_to_matrix(tablero_db.__str__())):
+            if str == 'O':
+                marcador.jugadorO += 1
+            else:
+                marcador.jugadorX += 1
+            marcador.save()
+            reset(request)
 
         turno_db.turno = not turno_db.turno
         turno_db.save()
@@ -96,5 +104,24 @@ def reset(request):
         for col in range(3):
             cell_name = f'cell_{row + 1}_{col + 1}'
             update_cell(tablero_db,cell_name,' ')
-    
+
     return redirect('/tictactoe')
+
+def check_tic_tac_toe(board):
+    # Comprobar filas
+    for row in board:
+        if row[0] == row[1] == row[2] and row[0] != ' ':
+            return True
+
+    # Comprobar columnas
+    for col in range(3):
+        if board[0][col] == board[1][col] == board[2][col] and board[0][col] != ' ':
+            return True
+
+    # Comprobar diagonales
+    if board[0][0] == board[1][1] == board[2][2] and board[0][0] != ' ':
+        return True
+    if board[0][2] == board[1][1] == board[2][0] and board[0][2] != ' ':
+        return True
+
+    return False
