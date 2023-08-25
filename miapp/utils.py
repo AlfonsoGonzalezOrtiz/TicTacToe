@@ -22,9 +22,9 @@ def find_selected_cell(request):
     return None
 
 
-def update_cell(tablero_db, cell_name, turno, fin):
-    # Verificamos si tablero_db no es None, fin es booleano y turno es string
-    if tablero_db is not None and isinstance(fin, bool) and isinstance(turno, str):  
+def update_cell(tablero_db, cell_name, turno, win):
+    # Verificamos si tablero_db no es None, win es booleano y turno es string
+    if tablero_db is not None and isinstance(win, bool) and isinstance(turno, str):  
         switch_cases = {
             'cell_1_1': ('a1', turno),
             'cell_1_2': ('a2', turno),
@@ -38,14 +38,14 @@ def update_cell(tablero_db, cell_name, turno, fin):
         }
         if cell_name in switch_cases:
             attribute, value = switch_cases[cell_name]
-            return modify_cell(tablero_db, attribute, value, fin)
+            return modify_cell(tablero_db, attribute, value, win)
 
     return False
 
 
-def modify_cell(tablero_db, attribute, value, fin):
+def modify_cell(tablero_db, attribute, value, win):
     cell_name = getattr(tablero_db, attribute)
-    if cell_name == EMPTY_CELL or fin:
+    if cell_name == EMPTY_CELL or win:
         setattr(tablero_db, attribute, value)
         tablero_db.save()
         return True

@@ -11,9 +11,9 @@ class TestModifyCell(TestCase):
         tablero_db.a1 = EMPTY_CELL
         attribute = 'a1'
         value = 'X'
-        fin = False
+        win = False
 
-        result = modify_cell(tablero_db, attribute, value, fin)
+        result = modify_cell(tablero_db, attribute, value, win)
 
         self.assertTrue(result)
         self.assertEqual(tablero_db.a1, value)
@@ -24,9 +24,9 @@ class TestModifyCell(TestCase):
         tablero_db.a1 = EMPTY_CELL
         attribute = 'a1'
         value = EMPTY_CELL
-        fin = False
+        win = False
 
-        result = modify_cell(tablero_db, attribute, value, fin)
+        result = modify_cell(tablero_db, attribute, value, win)
 
         self.assertTrue(result)
         self.assertEqual(tablero_db.a1, value)

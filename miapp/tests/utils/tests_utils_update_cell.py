@@ -14,7 +14,7 @@ class TestUpdateCell(TestCase):
         self.assertTrue(result)
         self.assertEqual(self.tablero_db.a1, 'X')
     
-    # Tests that update_cell successfully updates cell with fin is set to True
+    # Tests that update_cell successfully updates cell with win is set to True
     def test_update_cell_false_fin(self):
         self.tablero_db.a1 = EMPTY_CELL
         result = update_cell(self.tablero_db, 'cell_1_1', 'X', True)
@@ -43,7 +43,7 @@ class TestUpdateCell(TestCase):
         result = update_cell(self.tablero_db, 'cell_1_1', 1, False)
         self.assertFalse(result)
 
-    # Tests that update_cell returns False when fin is not a boolean
+    # Tests that update_cell returns False when win is not a boolean
     def test_update_cell_invalid_fin(self):
         result = update_cell(self.tablero_db, 'cell_1_1', 'X', 1)
         self.assertFalse(result)
