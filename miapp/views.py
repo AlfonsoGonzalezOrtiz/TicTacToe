@@ -9,23 +9,24 @@ import pdb
 
 def play(request):
     marcador = get_object_or_404(Marcador, id=1)
-    jugadorX = marcador.jugadorX
-    jugadorO = marcador.jugadorO
+    playerX = marcador.playerX
+    playerO = marcador.playerO
+    num_games = marcador.num_games
 
     tablero = get_object_or_404(Tablero, id=1)
     tablero_matrix = string_to_matrix(tablero.__str__())
 
-    turno = str(get_object_or_404(Turno, id=1))
+    turn = str(get_object_or_404(Turno, id=1))
 
-    context = {'tablero': tablero_matrix, 'jugadorX': jugadorX, 'jugadorO': jugadorO, 'turno': turno}
+    context = {'tablero': tablero_matrix, 'playerX': playerX, 'playerO': playerO, 'turn': turn,'num_games':num_games}
     return render(request, "miplantilla.html", context)
 
-def turno(request):
+def turn(request):
     if request.method == 'POST':
         tablero_db = Tablero.objects.first()
         tablero = string_to_matrix(tablero_db.__str__())
-        turno_db = Turno.objects.first()
-        str = get_player_letter(turno_db.turno)
+        turn_db = Turno.objects.first()
+        str = get_player_letter(turn_db.turno)
         marcador = Marcador.objects.get(id=1)
         cell_name = find_selected_cell(request)
         
@@ -36,7 +37,7 @@ def turno(request):
         bloqueo = lock_configuration(str_tablero)
 
         handle_game_outcome(request,tablero_db,str, marcador, win, bloqueo)
-        handle_turn_update(turno_db,updated, win, bloqueo)
+        handle_turn_update(turn_db,updated, win, bloqueo)
 
     return redirect('/tictactoe')
 
@@ -47,11 +48,11 @@ def reset(request):
     reset_scoreboard(marcador)
     return redirect('/tictactoe')
 
-def get_player_letter(turno):
-    if not isinstance(turno, bool):
-        raise ValueError("Turno must be a boolean value")
+def get_player_letter(turn):
+    if not isinstance(turn, bool):
+        raise ValueError("turn must be a boolean value")
 
-    return JUGADOR1_LETTER if turno else JUGADOR2_LETTER
+    return JUGADOR1_LETTER if turn else JUGADOR2_LETTER
 
 def process_turn(tablero_db, cell_name, player_letter):
     updated = update_cell(tablero_db, cell_name, player_letter, False)
@@ -62,18 +63,21 @@ def process_turn(tablero_db, cell_name, player_letter):
 def handle_game_outcome(request,tablero_db,player_letter, marcador, win, bloqueo):
     if win:
         if player_letter == JUGADOR1_LETTER:
-            marcador.jugadorO += 1
+            marcador.playerO += 1
         else:
-            marcador.jugadorX += 1
+            marcador.playerX += 1
+        marcador.num_games += 1
         marcador.save()
         new_game(win,tablero_db)
     elif bloqueo:
+        marcador.num_games += 1
+        marcador.save()
         new_game(True,tablero_db)
 
-def handle_turn_update(turno_db, updated, win, bloqueo):
+def handle_turn_update(turn_db, updated, win, bloqueo):
     if updated and not (win or bloqueo):
-        turno_db.turno = not turno_db.turno
-        turno_db.save()
+        turn_db.turno = not turn_db.turno
+        turn_db.save()
 
 def new_game(win,tablero_db):
     reset_board(win,tablero_db)
@@ -81,8 +85,9 @@ def new_game(win,tablero_db):
 
 def reset_scoreboard(marcador):
     if marcador is not None:
-        marcador.jugadorO = 0
-        marcador.jugadorX = 0
+        marcador.playerO = 0
+        marcador.playerX = 0
+        marcador.num_games = 0
         marcador.save()
 
 def reset_board(end, tablero_db):

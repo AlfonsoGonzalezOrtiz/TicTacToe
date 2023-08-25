@@ -38,8 +38,8 @@ class TestUpdateCell(TestCase):
         result = update_cell(None, 'cell_1_1', 'X', False)
         self.assertFalse(result)
 
-    # Tests that update_cell returns False when turno is not a string
-    def test_update_cell_invalid_turno(self):
+    # Tests that update_cell returns False when turn is not a string
+    def test_update_cell_invalid_turn(self):
         result = update_cell(self.tablero_db, 'cell_1_1', 1, False)
         self.assertFalse(result)
 

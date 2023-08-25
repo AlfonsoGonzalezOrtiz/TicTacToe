@@ -28,7 +28,7 @@ class TestPlay(TestCase):
     # Test that the view returns a 404 status code when a non-existent Marcador object is used.
     def test_render_template_with_invalid_tablero(self):
         # Create valid Marcador, Turno objects with id=1
-        marcador = Marcador.objects.create(jugadorX=1, jugadorO=2)
+        marcador = Marcador.objects.create(playerX=1, playerO=2,num_games=0)
         turno = Turno.objects.create(turno=True)
 
         # Call the play view using the client
@@ -39,7 +39,7 @@ class TestPlay(TestCase):
 
     def test_render_template_with_invalid_turno(self):
         # Create valid Marcador, Tablero objects with id=1
-        marcador = Marcador.objects.create(jugadorX=1, jugadorO=2)
+        marcador = Marcador.objects.create(playerX=1, playerO=2,num_games=0)
         tablero = Tablero.objects.create(a1='X', a2='O', a3='X', b1='O', b2='X', b3='O', c1='X', c2='O', c3='X')
 
         # Call the play view using the client
@@ -50,7 +50,7 @@ class TestPlay(TestCase):
     
     def test_template_used(self):
         # Create valid Marcador, Tablero, and Turno objects with id=1
-        marcador = Marcador.objects.create(jugadorX=1, jugadorO=2)
+        marcador = Marcador.objects.create(playerX=1, playerO=2,num_games=0)
         tablero = Tablero.objects.create(a1='X', a2='O', a3='X', b1='O', b2='X', b3='O', c1='X', c2='O', c3='X')
         turno = Turno.objects.create(turno=True)
 
@@ -60,10 +60,10 @@ class TestPlay(TestCase):
         # Assert that the template 'miplantilla.html' is rendered
         self.assertTemplateUsed(response, 'miplantilla.html')
 
-   # Tests that the function renders the template 'miplantilla.html' with the tablero matrix, jugadorX, jugadorO, and turno when valid Marcador, Tablero, and Turno objects with id=1 exist in the database.
+   # Tests that the function renders the template 'miplantilla.html' with the tablero matrix, playerX, playerO, and turno when valid Marcador, Tablero, and Turno objects with id=1 exist in the database.
     def test_render_template_with_valid_objects(self):
         # Create valid Marcador, Tablero, and Turno objects with id=1
-        marcador = Marcador.objects.create(jugadorX=1, jugadorO=2)
+        marcador = Marcador.objects.create(playerX=1, playerO=2,num_games=3)
         tablero = Tablero.objects.create(a1='X', a2='O', a3='X', b1='O', b2='X', b3='O', c1='X', c2='O', c3='X')
         turno = Turno.objects.create(turno=True)
 
@@ -82,11 +82,13 @@ class TestPlay(TestCase):
         # Assert that the context contains the expected values
         expected_context = {
             'tablero': [['X', 'O', 'X'], ['O', 'X', 'O'], ['X', 'O', 'X']],
-            'jugadorX': 1,
-            'jugadorO': 2,
-            'turno': 'O'
+            'playerX': 1,
+            'playerO': 2,
+            'turn': 'O',
+            'num_games': 3
         }
         self.assertEqual(response.context['tablero'], expected_context['tablero'])
-        self.assertEqual(response.context['jugadorX'], expected_context['jugadorX'])
-        self.assertEqual(response.context['jugadorO'], expected_context['jugadorO'])
-        self.assertEqual(response.context['turno'], expected_context['turno'])
+        self.assertEqual(response.context['playerX'], expected_context['playerX'])
+        self.assertEqual(response.context['playerO'], expected_context['playerO'])
+        self.assertEqual(response.context['turn'], expected_context['turn'])
+        self.assertEqual(response.context['num_games'], expected_context['num_games'])

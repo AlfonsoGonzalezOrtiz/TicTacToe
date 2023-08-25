@@ -91,7 +91,7 @@
             <b>Player O</b>
         </p>
         <br><br>
-        <form action="/turno/" method="POST"> {% csrf_token %}
+        <form action="/turn/" method="POST"> {% csrf_token %}
             <div class="ui">
                 {% for row in tablero %}
                 <div class="row">
@@ -110,9 +110,9 @@
             </button>
         </form>
         <br><br>
-        <p id="print">Turno de: {{turno}} </p>
-        <p id="print">JugadorX {{jugadorX}} - {{jugadorO}} JugadorO</p>
-
+        <p id="print">turn de: {{turn}} </p>
+        <p id="print">playerX {{playerX}} - {{playerO}} playerO</p>
+        <p id="print">Número de partidas jugadas: {{num_games}}</p>
 
     </div>
 </body>

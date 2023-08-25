@@ -29,8 +29,9 @@ class Tablero(models.Model):
         return "%s%s%s%s%s%s%s%s%s" % (self.a1,self.a2,self.a3,self.b1,self.b2,self.b3,self.c1,self.c2,self.c3)
 
 class Marcador(models.Model):
-    jugadorX = models.IntegerField()
-    jugadorO = models.IntegerField()
+    playerX = models.IntegerField(default=0)
+    playerO = models.IntegerField(default=0)
+    num_games = models.IntegerField(default=0)
 
 class Turno(models.Model):
     turno = models.BooleanField(blank=True, null=True)
