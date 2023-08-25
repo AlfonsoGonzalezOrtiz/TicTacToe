@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from miapp.models import Tablero,Marcador,Turno
 from miapp.utils import string_to_matrix,find_selected_cell,update_cell
-from miapp.utils import check_tic_tac_toe,configuracion_bloqueo
+from miapp.utils import check_tic_tac_toe,lock_configuration
 from miapp.constants import JUGADOR1_LETTER, JUGADOR2_LETTER, EMPTY_CELL
 
 # Create your views here.
@@ -32,7 +32,7 @@ def turno(request):
         
         str_tablero = string_to_matrix(tablero_db.__str__())
         fin = check_tic_tac_toe(str_tablero)
-        bloqueo = configuracion_bloqueo(str_tablero)
+        bloqueo = lock_configuration(str_tablero)
 
         handle_game_outcome(request,str, marcador, fin, bloqueo)
         handle_turn_update(turno_db, updated, fin, bloqueo)
@@ -58,9 +58,9 @@ def handle_game_outcome(request,player_letter, marcador, fin, bloqueo):
         else:
             marcador.jugadorX += 1
         marcador.save()
-        new_game(request, fin)
+        new_game(fin)
     elif bloqueo:
-        new_game(request, True)
+        new_game(True)
 
 def handle_turn_update(turno_db, updated, fin, bloqueo):
     if updated and not (fin or bloqueo):
@@ -74,7 +74,7 @@ def reset(request):
     reiniciar_marcador()
     return redirect('/tictactoe')
 
-def new_game(request,fin):
+def new_game(fin):
     reiniciar_tablero(fin)
     return redirect('/tictactoe')
 

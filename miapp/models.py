@@ -1,17 +1,17 @@
 from django.db import models
-
+from miapp.constants import EMPTY_CELL
 # Create your models here.
 
 class Tablero(models.Model):
-    a1 = models.CharField(max_length=1)
-    a2 = models.CharField(max_length=1)
-    a3 = models.CharField(max_length=1)
-    b1 = models.CharField(max_length=1)
-    b2 = models.CharField(max_length=1)
-    b3 = models.CharField(max_length=1)
-    c1 = models.CharField(max_length=1)
-    c2 = models.CharField(max_length=1)
-    c3 = models.CharField(max_length=1)
+    a1 = models.CharField(max_length=1, default=EMPTY_CELL)
+    a2 = models.CharField(max_length=1, default=EMPTY_CELL)
+    a3 = models.CharField(max_length=1, default=EMPTY_CELL)
+    b1 = models.CharField(max_length=1, default=EMPTY_CELL)
+    b2 = models.CharField(max_length=1, default=EMPTY_CELL)
+    b3 = models.CharField(max_length=1, default=EMPTY_CELL)
+    c1 = models.CharField(max_length=1, default=EMPTY_CELL)
+    c2 = models.CharField(max_length=1, default=EMPTY_CELL)
+    c3 = models.CharField(max_length=1, default=EMPTY_CELL)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -12,34 +12,40 @@ def string_to_matrix(input_string):
     return matrix
     
 def find_selected_cell(request):
-    for row in range(3):
-        for col in range(3):
-            cell_name = f'cell_{row + 1}_{col + 1}'
-            if request.POST.get(cell_name):
-                return cell_name
+    if request.method == 'POST':  # Verificamos si la solicitud es de tipo POST
+        if len(request.POST) == 2:  # Verificamos si solo hay un par clave valor en request.POST
+            for row in range(3):
+                for col in range(3):
+                    cell_name = f'cell_{row + 1}_{col + 1}'
+                    if request.POST.get(cell_name):
+                        return cell_name
     return None
 
+
 def update_cell(tablero_db, cell_name, turno, fin):
-    switch_cases = {
-        'cell_1_1': ('a1', turno),
-        'cell_1_2': ('a2', turno),
-        'cell_1_3': ('a3', turno),
-        'cell_2_1': ('b1', turno),
-        'cell_2_2': ('b2', turno),
-        'cell_2_3': ('b3', turno),
-        'cell_3_1': ('c1', turno),
-        'cell_3_2': ('c2', turno),
-        'cell_3_3': ('c3', turno),
-    }
-    if cell_name in switch_cases:
-        attribute, value = switch_cases[cell_name]
-        return modify_cell(tablero_db, attribute, value, fin)
-    
+    # Verificamos si tablero_db no es None, fin es booleano y turno es string
+    if tablero_db is not None and isinstance(fin, bool) and isinstance(turno, str):  
+        switch_cases = {
+            'cell_1_1': ('a1', turno),
+            'cell_1_2': ('a2', turno),
+            'cell_1_3': ('a3', turno),
+            'cell_2_1': ('b1', turno),
+            'cell_2_2': ('b2', turno),
+            'cell_2_3': ('b3', turno),
+            'cell_3_1': ('c1', turno),
+            'cell_3_2': ('c2', turno),
+            'cell_3_3': ('c3', turno),
+        }
+        if cell_name in switch_cases:
+            attribute, value = switch_cases[cell_name]
+            return modify_cell(tablero_db, attribute, value, fin)
+
     return False
 
+
 def modify_cell(tablero_db, attribute, value, fin):
-    cell_value = getattr(tablero_db, attribute)
-    if cell_value == EMPTY_CELL or fin:
+    cell_name = getattr(tablero_db, attribute)
+    if cell_name == EMPTY_CELL or fin:
         setattr(tablero_db, attribute, value)
         tablero_db.save()
         return True
@@ -67,7 +73,7 @@ def check_tic_tac_toe(board):
 
     return False
 
-def configuracion_bloqueo(tablero):
+def lock_configuration(tablero):
     for fila in tablero:
         for elemento in fila:
             if elemento == EMPTY_CELL:

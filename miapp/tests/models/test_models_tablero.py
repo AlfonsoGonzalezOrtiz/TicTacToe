@@ -1,20 +1,21 @@
 from django.test import TestCase
 from miapp.models import Tablero
+from miapp.constants import EMPTY_CELL
 
 class TestTablero(TestCase):
 
     # Tests that a new instance of Tablero has all fields as empty strings
     def test_empty_fields(self):
         tablero = Tablero()
-        self.assertEqual(tablero.a1, "")
-        self.assertEqual(tablero.a2, "")
-        self.assertEqual(tablero.a3, "")
-        self.assertEqual(tablero.b1, "")
-        self.assertEqual(tablero.b2, "")
-        self.assertEqual(tablero.b3, "")
-        self.assertEqual(tablero.c1, "")
-        self.assertEqual(tablero.c2, "")
-        self.assertEqual(tablero.c3, "")
+        self.assertEqual(tablero.a1, EMPTY_CELL)
+        self.assertEqual(tablero.a2, EMPTY_CELL)
+        self.assertEqual(tablero.a3, EMPTY_CELL)
+        self.assertEqual(tablero.b1, EMPTY_CELL)
+        self.assertEqual(tablero.b2, EMPTY_CELL)
+        self.assertEqual(tablero.b3, EMPTY_CELL)
+        self.assertEqual(tablero.c1, EMPTY_CELL)
+        self.assertEqual(tablero.c2, EMPTY_CELL)
+        self.assertEqual(tablero.c3, EMPTY_CELL)
 
     # Tests that the __str__ method returns the expected string when all fields have values
     def test_str_method_all_fields(self):
@@ -25,7 +26,7 @@ class TestTablero(TestCase):
     # Tests that the __str__ method returns the expected string when some fields have values and the remaining fields are empty strings
     def test_str_method_some_fields(self):
         tablero = Tablero(a1="X", a2="O", b2="X", c3="O")
-        expected_string = "XOXO"
+        expected_string = "XO  X   O"
         self.assertEqual(str(tablero), expected_string)
 
     # Tests that a validation error is raised when setting a value for a field that exceeds the maximum length
