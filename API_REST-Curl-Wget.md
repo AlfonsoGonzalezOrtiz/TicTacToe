@@ -2,11 +2,10 @@
 
 ## Obtener el Tablero del Juego (GET)
 
-```bash
+```
 curl -X GET http://localhost:8000/tictactoe/
-
-
-curl -X GET http://localhost:8000/tictactoe/
+```
+```
 <!DOCTYPE html>
 <html lang="en">
 
@@ -88,6 +87,7 @@ curl -X GET http://localhost:8000/tictactoe/
             Tahoma, sans-serif;
         color: dodgerblue;
     }
+
 </style>
 
 <body>
@@ -150,7 +150,7 @@ curl -X GET http://localhost:8000/tictactoe/
                         maxlength="1">
 
                 </div>
-
+            </div>
                 <br><br><br>
         </form>
         <form action="/reset/" method="POST"> <input type="hidden" name="csrfmiddlewaretoken" value="00q4Yp1Y9PWQN0xuxdoENR8lBIS6n66zME7QR6wcYw7GFGaQUEjEp0Y59BBRK0rv">
@@ -164,14 +164,13 @@ curl -X GET http://localhost:8000/tictactoe/
         <p id="print">Número de partidas jugadas: 1</p>
 
     </div>
+
 </body>
 
 </html>
+```
+## Procesar un turno del Juego (POST)
 
-## Obtener el Tablero del Juego (GET)
-Con los tokens correspondientes se puede realizar el post y se procesa el turno modificando la celda a1 con una X
-
-```bash
+### Con los tokens correspondientes se puede realizar el post y se procesa el turno modificando la celda a1 con una X
+```
 curl -X POST -b "sessionid=te2hsmwosfj0g58r3fvortsktfztgh3r; csrftoken=mwCVUKRTXdp70mHivYr7pNbjAXqKWRFkBfUMOM268TQaxM94dgNMOYJFDL6h8jSq" -d "csrfmiddlewaretoken=rr3SPbaKpSCZhwLpoXphCPiNNEi3h8hkGalJJdlXAy32OWdb6fLW10Q9QsYAtAuq&cell_1_1=X" http://localhost:8000/turn/
-
-
