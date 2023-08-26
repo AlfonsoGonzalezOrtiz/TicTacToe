@@ -23,7 +23,7 @@ partidas/jugadores.
 http://localhost:8000/tictactoe/
 ![](https://i.imgur.com/scKWKi7.png "TicTacToe")
 http://localhost:8000/games/
-![](https://i.imgur.com/DmPdbEq.png "Log games")](https://i.imgur.com/DmPdbEq.png "Log games")
+![](https://i.imgur.com/DmPdbEq.png "Log games")
 
 ## Manual de Instalación
 
