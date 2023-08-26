@@ -1,6 +1,17 @@
 from django.db import models
-from miapp.constants import EMPTY_CELL
+from miapp.constants import EMPTY_CELL,JUGADOR1_LETTER,JUGADOR2_LETTER
+from django.template.defaultfilters import stringfilter
+import pdb
 # Create your models here.
+
+
+class Game(models.Model):
+    tablero = models.ForeignKey('Tablero', on_delete=models.CASCADE)
+    marcador = models.ForeignKey('Marcador', on_delete=models.CASCADE)
+    turno = models.ForeignKey('Turno', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Tablero:%s\nMarcador: %s" % (self.tablero.__str__(),self.marcador.__str__())
 
 class Tablero(models.Model):
     a1 = models.CharField(max_length=1, default=EMPTY_CELL)
@@ -32,14 +43,16 @@ class Marcador(models.Model):
     playerX = models.IntegerField(default=0)
     playerO = models.IntegerField(default=0)
     num_games = models.IntegerField(default=0)
+    def __str__(self):
+        return "Player X %s - %s PlayerO\nGame Counter: %s" % (self.playerX, self.playerO, self.num_games)
 
 class Turno(models.Model):
-    turno = models.BooleanField(blank=True, null=True)
+    turno = models.BooleanField(blank=True,default=1)
 
     def __str__(self):
         if self.turno is None:
-            return ' '
+            return EMPTY_CELL
         elif self.turno:
-            return 'O'
+            return JUGADOR1_LETTER
         else:
-            return 'X'
+            return JUGADOR2_LETTER

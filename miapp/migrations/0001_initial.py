@@ -22,8 +22,8 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("playerX", models.IntegerField()),
-                ("playerO", models.IntegerField()),
+                ("jugadorX", models.IntegerField()),
+                ("jugadorO", models.IntegerField()),
             ],
         ),
         migrations.CreateModel(
@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name="Turn",
+            name="Turno",
             fields=[
                 (
                     "id",
@@ -61,7 +61,7 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("turn", models.BooleanField()),
+                ("turno", models.BooleanField()),
             ],
         ),
     ]

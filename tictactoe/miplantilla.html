@@ -87,8 +87,8 @@
         <p id="ins">
             Game starts by just Tap on
             box<br><br>First Player starts as
-            <b>Player X </b>And Second Player as
-            <b>Player O</b>
+            <b>Player O </b>And Second Player as
+            <b>Player X</b>
         </p>
         <br><br>
         <form action="/turn/" method="POST"> {% csrf_token %}
@@ -110,9 +110,9 @@
             </button>
         </form>
         <br><br>
-        <p id="print">Turn de: {{turn}} </p>
-        <p id="print">playerX {{playerX}} - {{playerO}} playerO</p>
-        <p id="print">Número de partidas jugadas: {{num_games}}</p>
+        <p id="print">Turn: {{turn}} </p>
+        <p id="print">Player X  {{playerX}} - {{playerO}}  Player O</p>
+        <p id="print">Game counter: {{num_games}}</p>
 
     </div>
 </body>

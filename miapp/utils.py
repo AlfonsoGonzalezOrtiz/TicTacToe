@@ -1,5 +1,5 @@
 from miapp.constants import EMPTY_CELL
-
+from django.db import transaction
 def string_to_matrix(input_string):
     if len(input_string) != 9:
         raise ValueError("El string debe tener tamaño 9")
@@ -44,11 +44,12 @@ def update_cell(tablero_db, cell_name, turn, win):
 
 
 def modify_cell(tablero_db, attribute, value, win):
-    cell_name = getattr(tablero_db, attribute)
-    if cell_name == EMPTY_CELL or win:
-        setattr(tablero_db, attribute, value)
-        tablero_db.save()
-        return True
+    with transaction.atomic():
+        cell_name = getattr(tablero_db, attribute)
+        if cell_name == EMPTY_CELL or win:
+            setattr(tablero_db, attribute, value)
+            tablero_db.save()
+            return True
     return False
 
 def check_line(line):
