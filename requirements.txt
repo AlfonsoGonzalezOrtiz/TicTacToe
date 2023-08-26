@@ -93,7 +93,7 @@ pytest-mock==3.11.1
 python-dateutil==2.8.2
 python-dotenv==0.21.0
 pytz==2022.6
-pywin32>=1.0
+pypiwin32==223
 pyzmq==22.3.0
 regex==2023.5.5
 requests==2.28.1
