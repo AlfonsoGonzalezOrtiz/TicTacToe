@@ -86,8 +86,12 @@ Abre tu navegador y visita: http://127.0.0.1:8000/tictactoe
 7. ¡Diviértete jugando al Tic Tac Toe y disfruta de la competición!
 
 ## Ejecución de los tests
+
+### Ejecutar tests
+python manage.py test miapp/tests/utils miapp/tests/views miapp/tests/models
+### Mostrar reporte
 ```bash
-coverage run manage.py test miapp/tests
+coverage run manage.py test miapp/tests/utils miapp/tests/views miapp/tests/models
 coverage report -m
 ```
 [![AlfonsoGonzalez's GitHub stats](https://github-readme-stats.vercel.app/api?username=AlfonsoGonzalezOrtiz)](https://github.com/anuraghazra/github-readme-stats)
