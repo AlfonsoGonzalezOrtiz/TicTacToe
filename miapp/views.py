@@ -4,7 +4,6 @@ from miapp.utils import string_to_matrix,find_selected_cell,update_cell
 from miapp.utils import check_tic_tac_toe,lock_configuration
 from miapp.constants import JUGADOR1_LETTER, JUGADOR2_LETTER, EMPTY_CELL
 from django.db import transaction
-import pdb
 
 # Create your views here.
 

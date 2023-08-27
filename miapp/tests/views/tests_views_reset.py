@@ -1,7 +1,6 @@
 from django.test import TestCase,Client
 from miapp.models import Marcador,Tablero,Turno,Game
 from miapp.views import reset
-from unittest.mock import Mock
 from miapp.constants import EMPTY_CELL
 
 class TestReset(TestCase):
