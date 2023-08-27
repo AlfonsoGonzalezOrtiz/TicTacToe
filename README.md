@@ -11,7 +11,7 @@ Este es un proyecto de Tres en Línea (Tic Tac Toe) desarrollado en Django. El p
 ## Requisitos valorables
 - Implementar el juego usando un API REST y usar curl/wget como cliente. :white_check_mark:
 - Llevar un control de partidas jugadas, incluida la puntuación. :white_check_mark:
-- Realización de Test Unitarios. :white_check_mark: 96 %
+- Realización de Test Unitarios. :white_check_mark: 100 % coverage
 - Establecer una persistencia para no perder el estado en caso de reinicio de
 servidor/aplicación. :white_check_mark:
 - Establecer control de sesiones con autenticación para permitir múltiples
@@ -92,7 +92,63 @@ python manage.py test miapp/tests/utils miapp/tests/views miapp/tests/models
 ### Mostrar reporte
 ```bash
 coverage run manage.py test miapp/tests/utils miapp/tests/views miapp/tests/models
-coverage report -m
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+..........................................................................................
+----------------------------------------------------------------------
+Ran 90 tests in 0.423s
+
+OK
+Destroying test database for alias 'default'...
 ```
+```bash
+coverage report -m
+Name                                                                                   Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------------------------------------------------
+manage.py                                                                                 12      2    83%   12-13
+miapp\__init__.py                                                                          0      0   100%
+miapp\admin.py                                                                             1      0   100%
+miapp\apps.py                                                                              4      0   100%
+miapp\constants.py                                                                         5      0   100%
+miapp\migrations\0001_initial.py                                                           5      0   100%
+miapp\migrations\0002_alter_tablero_a1_alter_tablero_a2_alter_tablero_a3_and_more.py       4      0   100%
+miapp\migrations\0003_rename_cl_tablero_c1.py                                              4      0   100%
+miapp\migrations\0004_rename_bl_tablero_b1.py                                              4      0   100%
+miapp\migrations\0005_remove_marcador_jugadoro_remove_marcador_jugadorx_and_more.py        5      0   100%
+miapp\migrations\0006_alter_turno_turno.py                                                 4      0   100%
+miapp\migrations\__init__.py                                                               0      0   100%
+miapp\models.py                                                                           46      0   100%
+miapp\tests\models\test_models_game.py                                                    40      0   100%
+miapp\tests\models\test_models_marcador.py                                                29      0   100%
+miapp\tests\models\test_models_tablero.py                                                 42      0   100%
+miapp\tests\models\test_models_turno.py                                                   21      0   100%
+miapp\tests\utils\tests_utils_check_line.py                                               19      0   100%
+miapp\tests\utils\tests_utils_check_tic_tac_toe.py                                        28      0   100%
+miapp\tests\utils\tests_utils_find_selected_cell.py                                       40      0   100%
+miapp\tests\utils\tests_utils_lock_configuration.py                                       12      0   100%
+miapp\tests\utils\tests_utils_modify_cell.py                                              23      0   100%
+miapp\tests\utils\tests_utils_string_to_matrix.py                                         23      0   100%
+miapp\tests\utils\tests_utils_update_cell.py                                              33      0   100%
+miapp\tests\views\tests_views_games.py                                                    60      0   100%
+miapp\tests\views\tests_views_get_player_letter.py                                        24      0   100%
+miapp\tests\views\tests_views_handle_game_outcome.py                                      53      0   100%
+miapp\tests\views\tests_views_handle_turn_update.py                                       39      0   100%
+miapp\tests\views\tests_views_new_game.py                                                 34      0   100%
+miapp\tests\views\tests_views_play.py                                                     32      0   100%
+miapp\tests\views\tests_views_process_turn.py                                             34      0   100%
+miapp\tests\views\tests_views_reset.py                                                    24      0   100%
+miapp\tests\views\tests_views_reset_board.py                                              37      0   100%
+miapp\tests\views\tests_views_reset_scoreboard.py                                         18      0   100%
+miapp\tests\views\tests_views_turn.py                                                     45      0   100%
+miapp\utils.py                                                                            54      0   100%
+miapp\views.py                                                                           115      0   100%
+tictactoe\__init__.py                                                                      0      0   100%
+tictactoe\settings.py                                                                     19      0   100%
+tictactoe\urls.py                                                                          4      0   100%
+--------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                    996      2    99%
+```
+
+
 [![AlfonsoGonzalez's GitHub stats](https://github-readme-stats.vercel.app/api?username=AlfonsoGonzalezOrtiz)](https://github.com/anuraghazra/github-readme-stats)
 
