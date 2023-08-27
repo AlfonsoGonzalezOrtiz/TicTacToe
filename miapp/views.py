@@ -67,7 +67,11 @@ def turn(request):
 
 def reset(request):
     with transaction.atomic():
-        latest_game = Game.objects.latest('id')
+        try:
+            latest_game = Game.objects.latest('id')
+        except:
+            raise ValueError("Game not found in database")
+
         marcador = Marcador.objects.create(playerX=0, playerO=0, num_games=0)
         marcador.save()
         tablero = Tablero.objects.create(a1=EMPTY_CELL,a2=EMPTY_CELL,a3=EMPTY_CELL,b1=EMPTY_CELL,b2=EMPTY_CELL,b3=EMPTY_CELL,c1=EMPTY_CELL,c2=EMPTY_CELL,c3=EMPTY_CELL)
@@ -120,7 +124,7 @@ def new_game(win,tablero,marcador,turno):
         new_tablero.save()
         new_marcador = Marcador.objects.create(playerX=marcador.playerX,playerO=marcador.playerO,num_games=marcador.num_games)
         new_marcador.save()
-        game = Game.objects.create(tablero=new_tablero,marcador=new_marcador,turno=turno) # Turn is irrelevant
+        game = Game.objects.create(tablero=new_tablero,marcador=new_marcador,turno=turno)
         game.save()
     return redirect('/tictactoe')
 
@@ -130,7 +134,6 @@ def reset_scoreboard(marcador):
         marcador.playerX = 0
         marcador.num_games = 0
         marcador.save()
-
 
 def reset_board(end, tablero_db):
     if not isinstance(tablero_db, Tablero):
