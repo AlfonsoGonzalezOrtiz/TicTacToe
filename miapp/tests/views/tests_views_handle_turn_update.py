@@ -3,14 +3,14 @@ from miapp.views import handle_turn_update
 from miapp.models import Turno
 class TestHandleTurnUpdate(TestCase):
 
-    # Tests that when 'updated' is True and neither 'win' nor 'bloqueo' are True, the 'turno' object is updated to the opposite boolean value and saved.
-    def test_updated_true_no_win_no_bloqueo(self):
+    # Tests that when 'updated' is True and neither 'win' nor 'block' are True, the 'turno' object is updated to the opposite boolean value and saved.
+    def test_updated_true_no_win_no_block(self):
         turno = Turno(turno=True)
         updated = True
         win = False
-        bloqueo = False
+        block = False
 
-        handle_turn_update(turno, updated, win, bloqueo)
+        handle_turn_update(turno, updated, win, block)
 
         self.assertEqual(turno.turno, False)
 
@@ -19,9 +19,9 @@ class TestHandleTurnUpdate(TestCase):
         turno = Turno(turno=True)
         updated = False
         win = False
-        bloqueo = False
+        block = False
 
-        handle_turn_update(turno, updated, win, bloqueo)
+        handle_turn_update(turno, updated, win, block)
 
         self.assertEqual(turno.turno, True)
 
@@ -30,20 +30,20 @@ class TestHandleTurnUpdate(TestCase):
         turno = Turno(turno=True)
         updated = True
         win = True
-        bloqueo = False
+        block = False
 
-        handle_turn_update(turno, updated, win, bloqueo)
+        handle_turn_update(turno, updated, win, block)
 
         self.assertEqual(turno.turno, True)
 
-    # Tests that when 'bloqueo' is True, the 'turno' object is not updated and saved.
-    def test_bloqueo_true(self):
+    # Tests that when 'block' is True, the 'turno' object is not updated and saved.
+    def test_block_true(self):
         turno = Turno(turno=True)
         updated = True
         win = False
-        bloqueo = True
+        block = True
 
-        handle_turn_update(turno.turno, updated, win, bloqueo)
+        handle_turn_update(turno.turno, updated, win, block)
 
         self.assertEqual(turno.turno, True)
 
@@ -52,8 +52,8 @@ class TestHandleTurnUpdate(TestCase):
         turno = Turno(turno=True)
         updated = True
         win = True
-        bloqueo = False
+        block = False
 
-        handle_turn_update(turno, updated, win, bloqueo)
+        handle_turn_update(turno, updated, win, block)
 
         self.assertEqual(turno.turno, True)

@@ -33,4 +33,11 @@ class TestReset(TestCase):
         self.assertEqual(response.url,'/tictactoe')
         self.assertEqual(response.status_code,302) # Redirect code
 
+    # Tests that the 'reset' function raise a Exception when database does not hava games
+    def test_reset_database_free(self):
+
+        with self.assertRaises(ValueError):
+            client = Client()  # Create a client instance to simulate requests
+            response = client.post('/reset/')
+
         

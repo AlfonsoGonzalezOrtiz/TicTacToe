@@ -58,10 +58,10 @@ def turn(request):
         
         str_tablero = string_to_matrix(tablero_db.__str__())
         win = check_tic_tac_toe(str_tablero)
-        bloqueo = lock_configuration(str_tablero)
+        block = lock_configuration(str_tablero)
 
-        handle_game_outcome(request,tablero_db,player_letter,marcador,turn_db, win, bloqueo)
-        handle_turn_update(turn_db,updated, win, bloqueo)
+        handle_game_outcome(tablero_db,player_letter,marcador,turn_db, win, block)
+        handle_turn_update(turn_db,updated, win, block)
 
     return redirect('/tictactoe')
 
@@ -99,7 +99,7 @@ def process_turn(tablero_db, cell_name, player_letter):
     win = check_tic_tac_toe(str_tablero)
     return win, updated
 
-def handle_game_outcome(request,tablero,player_letter, marcador,turno, win, bloqueo):
+def handle_game_outcome(tablero,player_letter, marcador,turno, win, block):
     if win:
         if player_letter == JUGADOR1_LETTER:
             marcador.playerO += 1
@@ -108,13 +108,13 @@ def handle_game_outcome(request,tablero,player_letter, marcador,turno, win, bloq
         marcador.num_games += 1
         marcador.save()
         new_game(win,tablero,marcador,turno)
-    elif bloqueo:
+    elif block:
         marcador.num_games += 1
         marcador.save()
         new_game(True,tablero,marcador,turno)
 
-def handle_turn_update(turno, updated, win, bloqueo):
-    if updated and not (win or bloqueo):
+def handle_turn_update(turno, updated, win, block):
+    if updated and not (win or block):
         turno.turno = not turno.turno
         turno.save()
 
