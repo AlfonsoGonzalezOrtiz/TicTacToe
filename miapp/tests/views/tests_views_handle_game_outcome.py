@@ -25,7 +25,7 @@ class TestHandleGameOutcome(TestCase):
         block = False
 
         # Call the handle_game_outcome function with win=True
-        handle_game_outcome(tablero, JUGADOR1_LETTER, marcador, turno, win, block)
+        handle_game_outcome(JUGADOR1_LETTER, marcador, turno, win, block)
     
         # Assert that the appropriate player's score is incremented
         self.assertEqual(marcador.playerO, 1)
@@ -57,7 +57,7 @@ class TestHandleGameOutcome(TestCase):
         block = False
 
         # Call the handle_game_outcome function with win=True
-        handle_game_outcome(tablero, JUGADOR2_LETTER, marcador, turno, win, block)
+        handle_game_outcome(JUGADOR2_LETTER, marcador, turno, win, block)
     
         # Assert that the appropriate player's score is incremented
         self.assertEqual(marcador.playerO, 0)
@@ -90,7 +90,7 @@ class TestHandleGameOutcome(TestCase):
         block = True
 
         # Call the handle_game_outcome function with block=True
-        handle_game_outcome(tablero, JUGADOR1_LETTER, marcador, turno, win, block)
+        handle_game_outcome(JUGADOR1_LETTER, marcador, turno, win, block)
     
         # Assert that the appropriate player's score is not incremented
         self.assertEqual(marcador.playerO, 0)

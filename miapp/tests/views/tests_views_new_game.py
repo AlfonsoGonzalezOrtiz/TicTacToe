@@ -21,7 +21,7 @@ class TestNewGame(TestCase):
         win = True
 
         # Call the new_game function
-        response = new_game(win, tablero, marcador, turno)
+        response = new_game(win, marcador, turno)
 
         # We get the game created before
         latest_game = Game.objects.latest('id')
@@ -49,7 +49,7 @@ class TestNewGame(TestCase):
         win = False
 
         # Call the new_game function
-        response = new_game(win, tablero, marcador, turno)
+        response = new_game(win, marcador, turno)
 
         # Use assertRaises to capture the Game.DoesNotExist exception
         with self.assertRaises(Game.DoesNotExist):

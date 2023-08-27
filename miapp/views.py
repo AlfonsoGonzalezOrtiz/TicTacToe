@@ -4,7 +4,7 @@ from miapp.utils import string_to_matrix,find_selected_cell,update_cell
 from miapp.utils import check_tic_tac_toe,lock_configuration
 from miapp.constants import JUGADOR1_LETTER, JUGADOR2_LETTER, EMPTY_CELL
 from django.db import transaction
-
+import pdb
 # Create your views here.
 
 def play(request):
@@ -42,16 +42,17 @@ def play(request):
 
 def turn(request):
     if request.method == 'POST':
-        latest_game = Game.objects.latest('id')
+        with transaction.atomic():
+            try:
+                latest_game = Game.objects.latest('id')
+            except:
+                raise ValueError("Game not found in database")
 
         marcador = get_object_or_404(Marcador, id=latest_game.__getattribute__('marcador').id)
         tablero_db = get_object_or_404(Tablero,id=latest_game.__getattribute__('tablero').id)
         turn_db = get_object_or_404(Turno,id=latest_game.__getattribute__('turno').id)
 
-        
-        tablero = string_to_matrix(tablero_db.__str__())
         player_letter  = get_player_letter(turn_db.turno)
-        
         cell_name = find_selected_cell(request)
         win, updated = process_turn(tablero_db, cell_name, player_letter)
         
@@ -59,9 +60,9 @@ def turn(request):
         win = check_tic_tac_toe(str_tablero)
         block = lock_configuration(str_tablero)
 
-        handle_game_outcome(tablero_db,player_letter,marcador,turn_db, win, block)
+        handle_game_outcome(player_letter,marcador,turn_db, win, block)
         handle_turn_update(turn_db,updated, win, block)
-
+        
     return redirect('/tictactoe')
 
 def reset(request):
@@ -98,7 +99,7 @@ def process_turn(tablero_db, cell_name, player_letter):
     win = check_tic_tac_toe(str_tablero)
     return win, updated
 
-def handle_game_outcome(tablero,player_letter, marcador,turno, win, block):
+def handle_game_outcome(player_letter, marcador,turno, win, block):
     if win:
         if player_letter == JUGADOR1_LETTER:
             marcador.playerO += 1
@@ -106,18 +107,18 @@ def handle_game_outcome(tablero,player_letter, marcador,turno, win, block):
             marcador.playerX += 1
         marcador.num_games += 1
         marcador.save()
-        new_game(win,tablero,marcador,turno)
+        new_game(win,marcador,turno)
     elif block:
         marcador.num_games += 1
         marcador.save()
-        new_game(True,tablero,marcador,turno)
+        new_game(True,marcador,turno)
 
 def handle_turn_update(turno, updated, win, block):
     if updated and not (win or block):
         turno.turno = not turno.turno
         turno.save()
 
-def new_game(win,tablero,marcador,turno):
+def new_game(win,marcador,turno):
     if win:
         new_tablero = Tablero.objects.create()
         new_tablero.save()

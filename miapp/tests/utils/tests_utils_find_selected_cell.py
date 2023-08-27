@@ -1,9 +1,7 @@
 from miapp.utils import find_selected_cell
 from django.test import TestCase
 from unittest.mock import Mock
-
-TOKEN_KEY = 'csrfmiddlewaretoken'
-TOKEN_VALUE = 'hEfBRjaQ7A5ENyv1qUeMhyVCB9DLludRwnxsLll3igwHkYXN8cArGJtYEXjixWqX'
+from miapp.constants import TOKEN_KEY,TOKEN_VALUE
 
 class TestFindSelectedCell(TestCase):
 
